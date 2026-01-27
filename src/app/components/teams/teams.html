@@ -1,0 +1,34 @@
+<button matButton="tonal" (click)="createTeam()">Create Team</button>
+@for (item of teams(); track $index) {
+  <app-team-item [team]="item"></app-team-item>
+  <button matButton="tonal" (click)="addMember(item.id||0)">Add Member</button>
+}
+@empty {
+    <p>there isn't teams for you' yet, create one!</p>
+}
+<ng-template #addMemberDialog let-data>
+<mat-dialog-content>
+  <mat-form-field appearance="outline">
+    <mat-label>User ID</mat-label>
+    <input matInput [(ngModel)]="newMemberId"  />
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="closeAddMemberDialog()">Cancel</button>
+  <button mat-button (click)="confirmAddMember(data.teamId)">Add</button>
+</mat-dialog-actions>
+</ng-template>
+
+<ng-template #createTeamDialog>
+<mat-dialog-content>
+  <mat-form-field appearance="outline">
+    <mat-label>Team Name</mat-label>
+    <input matInput [(ngModel)]="newTeamName" />
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="closeCreateTeamDialog()">Cancel</button>
+  <button mat-button (click)="confirmCreateTeam()">Create</button>
+</mat-dialog-actions>
+</ng-template>
+

@@ -24,9 +24,6 @@
   width: 100%;
   height: 48px;
   margin-top: 16px;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 600;
 }
 
 /* התאמת רכיבי Material לרוחב מלא */
@@ -49,14 +46,10 @@ mat-form-field {
   border-radius: 0 12px 12px 0 !important;
 }
 
-.btn:disabled {
-  background: #cbd5e1; 
-  cursor: not-allowed;  
-  box-shadow: none;
-  opacity: 0.7;
-}
 
-mat-error{
+
+
+.error-massage{
     font-size: 12px;
     color: #dc2626;
     margin-top: 4px;

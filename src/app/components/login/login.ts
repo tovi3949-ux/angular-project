@@ -1,8 +1,9 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth/auth';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -17,6 +18,8 @@ export class Login {
     password: new FormControl('', [Validators.required, Validators.minLength(6)]),
   });
   errorMassage= signal<string | null>(null);
+  router = inject(Router);  
+  
   
   onSubmit() {
     const { email, password } = this.loginForm.value;
@@ -24,6 +27,7 @@ export class Login {
     this.authService.login({email, password}).subscribe({
       next: () => {
         this.errorMassage.set(null);
+        this.router.navigate(['/teams']);
       },
       error: (err) => {
         if(err.status === 401)

@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
-
+import { authGuard } from './guard/auth-guard';
+import { Teams } from './components/teams/teams';
+import { Enter } from './components/enter/enter';
 export const routes: Routes = [
     {
         path: '',
@@ -8,7 +10,11 @@ export const routes: Routes = [
     },
     {
         path: 'auth',
-        loadComponent: () => import('./components/enter/enter').then(m => m.Enter)
-    }
-
+        component: Enter
+    },
+    {
+        path: 'teams',
+        component: Teams,
+        canActivate: [authGuard]
+    },
 ];
