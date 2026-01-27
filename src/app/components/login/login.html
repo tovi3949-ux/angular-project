@@ -1,0 +1,29 @@
+<div class="auth-header">
+    <div>
+        <div class="auth-title">Login</div>
+        <div class="auth-sub">Enter your details to continue</div>
+    </div>
+</div>
+@if (errorMassage()!= null) {
+<mat-error>
+    {{errorMassage()}}
+</mat-error>
+}
+
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form-container">
+    <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email" id="email" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password" id="password" />
+    </mat-form-field>
+
+    <div class="row" style="margin-top:8px;">
+        <button class="submit-btn" type="submit" [disabled]="loginForm.invalid">Login</button>
+    </div>
+
+
+</form>

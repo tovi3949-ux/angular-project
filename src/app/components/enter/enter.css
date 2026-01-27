@@ -1,0 +1,48 @@
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8fafc; /* רקע דף אפרפר-כחלחל עדין מאוד */
+  padding: 20px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 450px;
+  background: #ffffff; /* רקע לבן נקי */
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+/* מסגרת כחולה עדינה למסך התחברות */
+.login-frame {
+  border: 2px solid #006eff; 
+}
+
+/* מסגרת סגולה עדינה למסך הרשמה */
+.register-frame {
+  border: 2px solid #006eff;
+}
+
+.toggle-container {
+  text-align: center;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.btn-ghost {
+  background: none;
+  border: none;
+  color: #3b82f6;
+  font-weight: 600;
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+.btn-ghost:hover {
+  text-decoration: underline;
+}

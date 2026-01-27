@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "task-manager-client": {
+    "my-angular-app": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -14,7 +14,7 @@
           "builder": "@angular/build:application",
           "options": {
             "browser": "src/main.ts",
-            "polyfills": [
+             "polyfills": [
               "zone.js"
             ],
             "tsConfig": "tsconfig.app.json",
@@ -61,10 +61,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "task-manager-client:build:production"
+              "buildTarget": "my-angular-app:build:production"
             },
             "development": {
-              "buildTarget": "task-manager-client:build:development"
+              "buildTarget": "my-angular-app:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -75,10 +75,6 @@
         "test": {
           "builder": "@angular/build:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
             "tsConfig": "tsconfig.spec.json",
             "assets": [
               {
@@ -93,5 +89,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "b1168fcc-ac20-4ad2-aa8c-eacec3f87253"
   }
 }

@@ -1,0 +1,32 @@
+<div class="auth-header">
+  <div>
+    <div class="auth-title">Register</div>
+    <div class="auth-sub">Create a new account to manage tasks</div>
+  </div>
+</div>
+@if(errorMassage()!= null) {
+<mat-error>
+    {{errorMassage()}}
+</mat-error>
+}
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="form-container">
+  <mat-form-field appearance="outline">
+    <mat-label>Name</mat-label>
+    <input matInput type="text" formControlName="name" id="name" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Email</mat-label>
+    <input matInput type="email" formControlName="email" id="email" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Password</mat-label>
+    <input matInput type="password" formControlName="password" id="password" />
+  </mat-form-field>
+
+  <div class="row" style="margin-top:8px;">
+    <div class="helper text-muted">By creating an account you agree to the terms</div>
+    <button class="submit-btn" type="submit" [disabled]="registerForm.invalid">Register</button>
+  </div>
+</form>
