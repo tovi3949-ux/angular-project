@@ -27,7 +27,10 @@
 <mat-dialog-content>
   <mat-form-field appearance="outline">
     <mat-label>User ID</mat-label>
-    <input matInput [(ngModel)]="newMemberId"  />
+    <input matInput type="number" name="user-id" [(ngModel)]="newMemberId"  required/>
+    @if(addMemberErrorMassage() !== '') {
+      <mat-error>{{ addMemberErrorMassage() }}</mat-error>
+    }
   </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions>
@@ -40,7 +43,10 @@
 <mat-dialog-content>
   <mat-form-field appearance="outline">
     <mat-label>Team Name</mat-label>
-    <input matInput [(ngModel)]="newTeamName" />
+    <input matInput [(ngModel)]="newTeamName" required/>
+    @if(createTeamErrorMassage() !== '') {
+      <mat-error>{{ createTeamErrorMassage() }}</mat-error>
+    }
   </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions>

@@ -1,0 +1,35 @@
+<div class="header-actions">
+  <button mat-fab extended color="primary" (click)="createProject()">
+    <mat-icon>add</mat-icon>
+    Create Project
+  </button>
+</div>
+
+<div class="projects-grid">
+  @for (item of projects(); track $index) {
+    <div class="project-card-wrapper">
+      <app-project-item [project]="item"></app-project-item>
+    </div>
+  } @empty {
+    <div class="empty-state">
+      <p>There aren't any projects yet, create one!</p>
+    </div>
+  }
+</div>
+
+<ng-template #createProjectDialog>
+<mat-dialog-content>
+  <mat-form-field appearance="outline">
+    <mat-label>Project Name</mat-label>
+    <input matInput [(ngModel)]="newProjectName" required/>
+    @if(createProjectErrorMassage() !== '') {
+      <mat-error>{{ createProjectErrorMassage() }}</mat-error>
+    }
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="closeCreateProjectDialog()">Cancel</button>
+  <button mat-button (click)="confirmCreateProject()">Create</button>
+</mat-dialog-actions>
+</ng-template>
+

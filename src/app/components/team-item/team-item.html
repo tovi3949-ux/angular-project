@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card (click)="chooseTeam()">
     <mat-card-title>{{ team()?.name }}</mat-card-title>
     <mat-card-subtitle>Members: {{ team()?.members_count || 0 }}</mat-card-subtitle>
     <mat-card-subtitle>Created at: {{ team()?.created_at | date:'medium' }}</mat-card-subtitle>
