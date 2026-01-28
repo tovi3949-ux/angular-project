@@ -1,63 +1,67 @@
+/* מיכל הטופס הראשי */
 .form-container {
   display: flex;
   flex-direction: column;
-  gap: 8px; /* מרווח קטן בין שדה לשדה */
+  gap: 16px; /* הגדלת המרווח בין השדות למראה נקי יותר */
+  padding: 24px;
+  background-color: var(--mat-sys-surface-container-low); /* שימוש בצבע רקע עדין מהתמה */
+  border-radius: 28px; /* פינות מעוגלות לפי Material 3 */
 }
 
+/* כותרות */
 .auth-title {
-  font-size: 24px;
-  font-weight: 700;
-  color: #1e293b;
+  font-family: 'Roboto', sans-serif;
+  font-size: 2rem;
+  font-weight: 500;
+  color: var(--mat-sys-on-surface);
   margin-bottom: 8px;
   text-align: center;
+  letter-spacing: -0.5px;
 }
 
 .auth-sub {
-  font-size: 14px;
-  color: #64748b;
-  margin-bottom: 32px;
+  font-size: 1rem;
+  color: var(--mat-sys-on-surface-variant);
+  margin-bottom: 24px;
   text-align: center;
 }
 
-/* כפתור שליחה מעוצב */
-.submit-btn {
-  width: 100%;
-  height: 48px;
-  margin-top: 16px;
-}
-
-/* התאמת רכיבי Material לרוחב מלא */
+/* שדות קלט - עיגול פינות מוגדש */
 mat-form-field {
   width: 100%;
 }
 
-.text-muted {
-  color: #64748b;
-  font-size: 14px;
-  text-align: center;
+::ng-deep .mat-mdc-text-field-wrapper .mdc-notched-outline__leading,
+::ng-deep .mat-mdc-text-field-wrapper .mdc-notched-outline__trailing,
+::ng-deep .mat-mdc-text-field-wrapper .mdc-notched-outline__notch {
+  border-radius: 12px !important; /* פינות מעוגלות לשדות */
+}
+
+/* כפתור שליחה */
+.submit-btn {
+  width: 100%;
+  height: 56px; /* כפתור גבוה ונוח ללחיצה */
   margin-top: 16px;
+  border-radius: 100px !important; /* כפתור קפסולה מודרני */
+  font-weight: 600;
+  font-size: 1rem;
 }
 
-::ng-deep .mat-mdc-text-field-wrapper .mdc-notched-outline__leading {
-  border-radius: 12px 0 0 12px !important;
+/* הודעות שגיאה */
+.error-massage {
+  font-size: 0.875rem;
+  color: var(--mat-sys-error);
+  background-color: var(--mat-sys-error-container);
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  text-align: center;
+  border: 1px solid var(--mat-sys-error);
 }
 
-::ng-deep .mat-mdc-text-field-wrapper .mdc-notched-outline__trailing {
-  border-radius: 0 12px 12px 0 !important;
-}
-
-
-
-
-.error-massage{
-    font-size: 12px;
-    color: #dc2626;
-    margin-top: 4px;
-    margin-bottom: 4px;
-    background-color: #fee2e2;
-    padding: 4px 8px;
-    border-radius: 4px;
-    display: block;
-    text-align: center;
-    border: #dc2626 1px solid;
+.text-muted {
+  color: var(--mat-sys-outline);
+  font-size: 0.75rem;
+  margin-top: 12px;
+  text-align: center;
 }

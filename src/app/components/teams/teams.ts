@@ -7,10 +7,11 @@ import { MatDialogModule, MatDialog } from "@angular/material/dialog";
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
+import { MatIcon } from '@angular/material/icon';
 @Component({
   selector: 'app-teams',
   standalone: true,
-  imports: [TeamItem, MatButtonModule, MatDialogModule, MatFormField, MatLabel, FormsModule, MatInputModule],
+  imports: [TeamItem, MatButtonModule, MatDialogModule, MatFormField, MatLabel, FormsModule, MatInputModule, MatIcon],
   templateUrl: './teams.html',
   styleUrls: ['./teams.css'],
 })

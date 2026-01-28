@@ -1,11 +1,28 @@
-<button matButton="tonal" (click)="createTeam()">Create Team</button>
-@for (item of teams(); track $index) {
-  <app-team-item [team]="item"></app-team-item>
-  <button matButton="tonal" (click)="addMember(item.id||0)">Add Member</button>
-}
-@empty {
-    <p>there isn't teams for you' yet, create one!</p>
-}
+<div class="header-actions">
+  <button mat-fab extended color="primary" (click)="createTeam()">
+    <mat-icon>add</mat-icon>
+    Create Team
+  </button>
+</div>
+
+<div class="teams-grid">
+  @for (item of teams(); track $index) {
+    <div class="team-card-wrapper">
+      <app-team-item [team]="item"></app-team-item>
+      
+      <div class="card-actions">
+        <button mat-button class="inner-add-btn" (click)="addMember(item.id||0)">
+          <mat-icon>person_add</mat-icon>
+          Add Member
+        </button>
+      </div>
+    </div>
+  } @empty {
+    <div class="empty-state">
+      <p>There aren't any teams yet, create one!</p>
+    </div>
+  }
+</div>
 <ng-template #addMemberDialog let-data>
 <mat-dialog-content>
   <mat-form-field appearance="outline">

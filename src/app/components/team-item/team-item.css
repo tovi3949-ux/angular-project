@@ -1,0 +1,50 @@
+:host {
+  display: block;
+  flex: 1; /* לוקח את כל השטח הפנוי בריבוע מעל הכפתור */
+}
+
+mat-card {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* מרכז את הטקסט בתוך הריבוע */
+  text-align: center;
+}
+
+mat-card-title {
+  font-size: 1.5rem !important;
+  margin-bottom: 8px !important;
+}
+mat-card {
+  border-radius: 24px !important;
+  padding: 16px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background-color: var(--mat-sys-surface);
+  border: 1px solid var(--mat-sys-outline-variant);
+  box-shadow: none !important; /* מראה שטוח ומודרני */
+}
+
+mat-card:hover {
+  transform: translateY(-4px); /* אפקט ריחופ עדין */
+  box-shadow: 0 8px 16px rgba(0,0,0,0.08) !important;
+  border-color: var(--mat-sys-primary);
+}
+
+mat-card-title {
+  font-size: 1.25rem !important;
+  font-weight: 600 !important;
+  color: var(--mat-sys-primary) !important;
+  margin-bottom: 12px !important;
+}
+
+mat-card-subtitle {
+  font-size: 0.875rem !important;
+  color: var(--mat-sys-on-surface-variant) !important;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px !important;
+}
