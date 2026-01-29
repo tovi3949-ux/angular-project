@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Task } from '../../models/task';
-import { environment } from '../../environment';
+import { environment } from '../../environment.prod';
 import { TaskPriority } from '../../models/enums/task-priority';
 import { TaskStatus } from '../../models/enums/task-status';
 

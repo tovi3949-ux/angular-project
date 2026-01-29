@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { TaskComment } from '../../models/taskComment';
-import { environment } from '../../environment';
+import { environment } from '../../environment.prod';
 
 @Injectable({
   providedIn: 'root',

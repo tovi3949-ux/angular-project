@@ -3,7 +3,7 @@ import { inject, Injectable, signal, computed } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AuthResponse, User } from '../../models/user';
-import { environment } from '../../environment';
+import { environment } from '../../environment.prod';
 
 @Injectable({
   providedIn: 'root',
