@@ -7,29 +7,43 @@
 
 <div class="projects-grid">
   @for (item of projects(); track $index) {
-    <div class="project-card-wrapper">
-      <app-project-item [project]="item"></app-project-item>
-    </div>
+  <div class="project-card-wrapper">
+    <app-project-item [project]="item" (click)="chooseProject(item)"></app-project-item>
+  </div>
   } @empty {
-    <div class="empty-state">
-      <p>There aren't any projects yet, create one!</p>
-    </div>
+  <div class="empty-state">
+    <p>There aren't any projects yet, create one!</p>
+  </div>
   }
 </div>
 
 <ng-template #createProjectDialog>
-<mat-dialog-content>
-  <mat-form-field appearance="outline">
-    <mat-label>Project Name</mat-label>
-    <input matInput [(ngModel)]="newProjectName" required/>
-    @if(createProjectErrorMassage() !== '') {
-      <mat-error>{{ createProjectErrorMassage() }}</mat-error>
-    }
-  </mat-form-field>
-</mat-dialog-content>
-<mat-dialog-actions>
-  <button mat-button (click)="closeCreateProjectDialog()">Cancel</button>
-  <button mat-button (click)="confirmCreateProject()">Create</button>
-</mat-dialog-actions>
-</ng-template>
+  <form [formGroup]="addProjectForm" (ngSubmit)="confirmCreateProject()">
+    <mat-dialog-content>
 
+      <mat-form-field appearance="outline">
+        <mat-label>Project Name</mat-label>
+        <input matInput formControlName="name" required />
+        @if (addProjectForm.get('name')?.hasError('required')) {
+        <mat-error>Name is required</mat-error>
+        }
+        @if (addProjectForm.get('name')?.hasError('minlength')) {
+        <mat-error>Name must be at least 3 characters long</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="description"></textarea>
+        @if (addProjectForm.get('description')?.hasError('maxlength')) {
+        <mat-error>Description cannot exceed 200 characters</mat-error>
+        }
+      </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-button (click)="closeCreateProjectDialog()">Cancel</button>
+      <button mat-button type="submit" [disabled]="addProjectForm.invalid">Create</button>
+    </mat-dialog-actions>
+  </form>
+
+
+</ng-template>

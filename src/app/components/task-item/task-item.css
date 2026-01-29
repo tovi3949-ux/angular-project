@@ -1,0 +1,13 @@
+/* תגיות עדיפות גלובליות */
+.priority-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.priority-high { background-color: #ffebee; color: #c62828; border: 1px solid #ffcdd2; }
+.priority-medium { background-color: #fff3e0; color: #ef6c00; border: 1px solid #ffe0b2; }
+.priority-low { background-color: #e8f5e9; color: #2e7d32; border: 1px solid #c8e6c9; }

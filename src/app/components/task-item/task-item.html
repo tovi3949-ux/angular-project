@@ -1,0 +1,28 @@
+<mat-card class="task-card">
+  <mat-card-content>
+    <div class="task-header">
+      <span class="priority-badge" [ngClass]="'priority-' + task().priority">
+        {{ task().priority }}
+      </span>
+      <button mat-icon-button color="warn" (click)="onDeleteClick()">
+        <mat-icon>delete_outline</mat-icon>
+      </button>
+    </div>
+    
+    <h3 class="task-title">{{ task().title }}</h3>
+    <p class="task-desc">{{ task().description || 'no description' }}</p>
+  </mat-card-content>
+
+  <mat-card-actions align="end">
+    @if (task().status === TaskStatus.Todo) {
+      <button mat-flat-button color="primary" (click)="changeStatus(TaskStatus.InProgress)">
+        <mat-icon>play_arrow</mat-icon> start
+      </button>
+    } 
+    @else if (task().status === TaskStatus.InProgress) {
+      <button mat-flat-button color="accent" (click)="changeStatus(TaskStatus.Done)">
+        <mat-icon>check</mat-icon> finish
+      </button>
+    }
+  </mat-card-actions>
+</mat-card>

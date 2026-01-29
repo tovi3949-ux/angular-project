@@ -4,26 +4,28 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environment';
 import { Project } from '../../models/project';
 import { Observable } from 'rxjs/internal/Observable';
-import { map } from 'rxjs/internal/operators/map';
+import { tap } from 'rxjs/internal/operators/tap';
 
 
 @Injectable({
   providedIn: 'root',
 })
-export class ProjectService {
+export class  ProjectService {
   private readonly URL = `${environment.apiUrl}/projects`;
   private http = inject(HttpClient);
-  private projects = new BehaviorSubject<Project[] | null>(null);
-  @Input() teamId!: string;
-  getProjects() :Observable<Project[] | null> {
-    return this.http
-      .get<Project[]>(`${this.URL}`)
-      .pipe(
-        map((projects) => projects.filter(project => project.team_id.toString() === this.teamId))
-      );
+  private projects = new BehaviorSubject<Project[]>([]);
+  projects$ = this.projects.asObservable();
+  getProjects(teamId: string): Observable<Project[]> {
+    return this.http.get<Project[]>(this.URL).pipe(
+      tap((projects) => this.projects.next(projects.filter(p => p.team_id === Number(teamId))))
+    );
   }
-  createProject({ name, description }: { name: string; description: string; }):Observable<void> {
-    const project = { name, description, team_id: this.teamId };
-    return this.http.post<void>(`${this.URL}`, project);
+  createProject(data: { name: string; description: string; teamId: string }): Observable<Project> {
+    return this.http.post<Project>(this.URL, data).pipe(
+      tap((res) => {
+        const currentProjects = this.projects.getValue();
+        this.projects.next([...currentProjects, res]);
+      })
+    );
   }
 }

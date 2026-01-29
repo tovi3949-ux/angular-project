@@ -1,0 +1,84 @@
+<div class="board-container">
+  <div class="column">
+    <div class="column-header">
+      <h2>To Do</h2>
+      <button mat-icon-button color="primary" (click)="openAddTask(TaskStatus.Todo)">
+        <mat-icon>add_circle</mat-icon>
+      </button>
+    </div>
+    <div class="task-list">
+      @for (t of todoTasks(); track t.id) {
+        <app-task-item [task]="t" (statusChanged)="onStatusChange(t.id, $event)" (deleteRequested)="onDeleteRequest($event)"></app-task-item>
+      }
+    </div>
+  </div>
+
+  <div class="column">
+    <div class="column-header">
+      <h2>In Progress</h2>
+      <button mat-icon-button color="primary" (click)="openAddTask(TaskStatus.InProgress)">
+        <mat-icon>add_circle</mat-icon>
+      </button>
+    </div>
+    <div class="task-list">
+      @for (t of doingTasks(); track t.id) {
+        <app-task-item [task]="t" (statusChanged)="onStatusChange(t.id, $event)" (deleteRequested)="onDeleteRequest($event)"></app-task-item>
+      }
+    </div>
+  </div>
+
+  <div class="column">
+    <div class="column-header"><h2>Done</h2></div>
+    <div class="task-list">
+      @for (t of doneTasks(); track t.id) {
+        <app-task-item [task]="t" (statusChanged)="onStatusChange(t.id, $event)" (deleteRequested)="onDeleteRequest($event)"></app-task-item>
+      }
+    </div>
+  </div>
+</div>
+
+<ng-template #taskDialog>
+  <h2 mat-dialog-title>new task</h2>
+  <mat-dialog-content [formGroup]="taskForm" class="dialog-form">
+    <mat-form-field appearance="outline">
+      <mat-label>title</mat-label>
+      <input matInput formControlName="title" placeholder="task title" />
+      @if(taskForm.get('title')?.hasError('required')) {
+        <mat-error>title is required</mat-error>
+        }
+        @if(taskForm.get('title')?.hasError('minlength')) {
+        <mat-error>title must be at least 2 characters long</mat-error>
+        }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>description</mat-label>
+      <textarea matInput formControlName="description" rows="3" placeholder="task description"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>priority</mat-label>
+      <mat-select formControlName="priority">
+        <mat-option value="low">Low</mat-option>
+        <mat-option value="normal">Normal</mat-option>
+        <mat-option value="high">High</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>cencel</button>
+    <button mat-raised-button color="primary" (click)="confirmSaveTask()" [disabled]="taskForm.invalid">save task</button>
+  </mat-dialog-actions>
+</ng-template>
+
+<ng-template #deleteConfirmDialog let-task>
+  <h2 mat-dialog-title>delete task</h2>
+  <mat-dialog-content>
+    Are you sure you want to delete the task <strong>"{{ task.title }}"</strong>?
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button [mat-dialog-close]="false">cencel</button>
+    <button mat-raised-button color="warn" [mat-dialog-close]="true">delete</button>
+  </mat-dialog-actions>
+</ng-template>

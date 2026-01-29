@@ -1,0 +1,71 @@
+.board-container {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  height: calc(100vh - 100px);
+  overflow-x: auto;
+  background-color: #f4f7f9;
+}
+
+.column {
+  flex: 1;
+  min-width: 300px;
+  background-color: #ebedef;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.column-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+}
+
+.task-list {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.task-card {
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.task-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.priority-badge {
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.priority-high { background: #ffebee; color: #d32f2f; }
+.priority-medium { background: #fff3e0; color: #f57c00; }
+.priority-low { background: #e8f5e9; color: #388e3c; }
+
+.dialog-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding-top: 10px;
+}
+
+
+mat-form-field {
+  width: 100%;
+}
+
+::ng-deep .mat-mdc-text-field-wrapper .mdc-notched-outline__leading,
+::ng-deep .mat-mdc-text-field-wrapper .mdc-notched-outline__trailing,
+::ng-deep .mat-mdc-text-field-wrapper .mdc-notched-outline__notch {
+  border-radius: 12px !important; 
+}
