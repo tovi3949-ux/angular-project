@@ -1,4 +1,4 @@
-<mat-card class="task-card">
+<mat-card class="task-card" (click)="onCardClick($event)">
   <mat-card-content>
     <div class="task-header">
       <span class="priority-badge" [ngClass]="'priority-' + task().priority">

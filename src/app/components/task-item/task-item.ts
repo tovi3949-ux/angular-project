@@ -28,4 +28,12 @@ export class TaskItem {
   onDeleteClick() {
     this.deleteRequested.emit(this.task());
   }
+
+  taskClicked = output<Task>();
+
+onCardClick(event: MouseEvent) {
+  const target = event.target as HTMLElement;
+  if (target.closest('button')) return;
+  this.taskClicked.emit(this.task());
+}
 }

@@ -1,1 +1,49 @@
-<p>task-details-dialog works!</p>
+<h2 mat-dialog-title>{{ data.task.title }}</h2>
+
+<mat-dialog-content class="details-content">
+  <div class="task-info">
+    <p class="description-text">{{ data.task.description || 'No description provided.' }}</p>
+    <div class="metadata">
+      <span class="priority-badge" [ngClass]="'priority-' + data.task.priority">
+        {{ data.task.priority }}
+      </span>
+      <span class="status-label">{{ data.task.status }}</span>
+    </div>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <div class="comments-section">
+    <h3>Comments ({{ comments().length }})</h3>
+    
+    <div class="comment-input-area">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Write a comment...</mat-label>
+        <textarea matInput [(ngModel)]="newCommentBody" name="newComment" rows="2"></textarea>
+      </mat-form-field>
+      <div class="action-row">
+        <button mat-flat-button color="primary" [disabled]="!newCommentBody.trim()" (click)="sendComment()">
+          <mat-icon>send</mat-icon> Post
+        </button>
+      </div>
+    </div>
+
+    <div class="comments-list">
+      @for (comment of comments(); track comment.id) {
+        <div class="comment-item">
+          <div class="comment-header">
+            <span class="user-id">{{ comment.author_name }}</span>
+            <span class="comment-date">{{ comment.created_at | date:'short' }}</span>
+          </div>
+          <p class="comment-body">{{ comment.body }}</p>
+        </div>
+      } @empty {
+        <p class="empty-msg">No comments yet. Start the conversation!</p>
+      }
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>

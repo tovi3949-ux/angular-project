@@ -14,6 +14,7 @@ import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angula
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { TaskDetailsDialog } from '../task-details-dialog/task-details-dialog';
 
 @Component({
   selector: 'app-task-board',
@@ -54,11 +55,11 @@ export class TaskBoard implements OnInit {
   }
 
   openAddTask(status: TaskStatus) {
-    this.taskForm.reset({ 
-      status, 
-      priority: TaskPriority.Low, 
-      title: '', 
-      description: '' 
+    this.taskForm.reset({
+      status,
+      priority: TaskPriority.Low,
+      title: '',
+      description: ''
     });
     this.dialog.open(this.taskDialogTpl, { width: '400px' });
   }
@@ -93,6 +94,13 @@ export class TaskBoard implements OnInit {
           this.snackBar.open('task deleted', '', { duration: 2000 });
         });
       }
+    });
+  }
+
+  openTaskDetails(task: Task) {
+    this.dialog.open(TaskDetailsDialog, {
+      width: '550px',
+      data: { task }
     });
   }
 }
