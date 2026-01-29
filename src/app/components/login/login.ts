@@ -27,6 +27,7 @@ export class Login {
     this.authService.login({email, password}).subscribe({
       next: () => {
         this.errorMassage.set(null);
+        console.log('Login successful');
         this.router.navigate(['/teams']);
       },
       error: (err) => {
