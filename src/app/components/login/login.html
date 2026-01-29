@@ -1,41 +1,34 @@
-<div class="auth-header">
-    <div>
-        <div class="auth-title">Login</div>
-        <div class="auth-sub">Enter your details to continue</div>
-    </div>
-</div>
-@if (errorMassage()!= null) {
-<mat-error class="error-massage">
-    {{errorMassage()}}
-</mat-error>
-}
-
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form-container">
-    <mat-form-field appearance="outline">
-        <mat-label>Email</mat-label>
-        <input matInput type="email" formControlName="email" id="email" />
-        @if (loginForm.get('email')?.hasError('required')) {
+<h2 class="form-title">Welcome Back</h2>
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form-layout">
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Email</mat-label>
+    <mat-icon matPrefix color="primary">alternate_email</mat-icon>
+    <input matInput formControlName="email" type="email">
+    @if(loginForm.get('email')?.hasError('email')) {
+      <mat-error>Enter a valid email</mat-error>
+    }
+    @if(loginForm.get('email')?.hasError('required')) {
       <mat-error>Email is required</mat-error>
     }
-        @if (loginForm.get('email')?.hasError('email') && !loginForm.get('email')?.hasError('required')) {
-      <mat-error>Please enter a valid email address</mat-error>
-    }
-    </mat-form-field>
+  </mat-form-field>
 
-    <mat-form-field appearance="outline">
-        <mat-label>Password</mat-label>
-        <input matInput type="password" formControlName="password" id="password" />
-        @if (loginForm.get('password')?.hasError('required')) {
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Password</mat-label>
+    <mat-icon matPrefix color="primary">lock_open</mat-icon>
+    <input matInput formControlName="password" type="password">
+    @if(loginForm.get('password')?.hasError('required')) {
       <mat-error>Password is required</mat-error>
     }
-    @if (loginForm.get('password')?.hasError('minlength') && !loginForm.get('password')?.hasError('required')) {
+    @if(loginForm.get('password')?.hasError('minlength')) {
       <mat-error>Password must be at least 6 characters long</mat-error>
-    }
-    </mat-form-field>
+    }   
+  </mat-form-field>
 
-    <div class="row" style="margin-top:8px;">
-        <button matButton="tonal" class="submit-btn" type="submit" [disabled]="loginForm.invalid">Login</button>
-    </div>
+  @if (errorMassage()) {
+    <div class="alert-error">{{ errorMassage() }}</div>
+  }
 
-
+  <button mat-raised-button class="btn-primary full-width" type="submit" [disabled]="loginForm.invalid">
+    Login
+  </button>
 </form>

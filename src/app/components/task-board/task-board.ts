@@ -15,14 +15,16 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { TaskDetailsDialog } from '../task-details-dialog/task-details-dialog';
-
+import { CdkDragDrop, moveItemInArray, transferArrayItem, DragDropModule } from '@angular/cdk/drag-drop';
+import { MatDatepicker, MatDatepickerToggle, MatDateRangePicker, MatDatepickerInput } from '@angular/material/datepicker';
 @Component({
   selector: 'app-task-board',
   standalone: true,
   imports: [
-    CommonModule, TaskItem, MatButtonModule, MatIconModule, MatDialogModule,
-    MatSnackBarModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule
-  ],
+    CommonModule, TaskItem, MatButtonModule, MatIconModule, MatDialogModule, DragDropModule,
+    MatSnackBarModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatDatepicker, MatDatepickerToggle,
+    MatDatepickerInput
+],
   templateUrl: './task-board.html',
   styleUrl: './task-board.css'
 })
@@ -44,7 +46,11 @@ export class TaskBoard implements OnInit {
     title: new FormControl('', [Validators.required, Validators.minLength(2)]),
     description: new FormControl(''),
     priority: new FormControl(TaskPriority.Low),
-    status: new FormControl(TaskStatus.Todo)
+    status: new FormControl(TaskStatus.Todo),
+    due_date: new FormControl('', [(thisDate) => {
+      const date = new Date(thisDate.value);
+      return isNaN(date.getTime()) ? { invalidDate: true } : null;
+    }]),
   });
 
   @ViewChild('taskDialog') taskDialogTpl!: TemplateRef<any>;
@@ -59,7 +65,8 @@ export class TaskBoard implements OnInit {
       status,
       priority: TaskPriority.Low,
       title: '',
-      description: ''
+      description: '',
+      due_date: ''
     });
     this.dialog.open(this.taskDialogTpl, { width: '400px' });
   }
@@ -69,9 +76,9 @@ export class TaskBoard implements OnInit {
 
     const newTask = {
       ...this.taskForm.value,
-      projectId: Number(this.projectId())
+      project_id: Number(this.projectId())
     };
-
+    console.log(newTask);
     this.tasksService.createTask(newTask as Task).subscribe({
       next: () => {
         this.snackBar.open('task added successfully', '', { duration: 2000 });
@@ -102,5 +109,22 @@ export class TaskBoard implements OnInit {
       width: '550px',
       data: { task }
     });
+  }
+
+  drop(event: CdkDragDrop<Task[]>, newStatus: TaskStatus) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      const task = event.previousContainer.data[event.previousIndex];
+
+      this.tasksService.updateTask(task.id, { status: newStatus }).subscribe();
+      
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    }
   }
 }

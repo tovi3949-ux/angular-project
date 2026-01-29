@@ -1,16 +1,24 @@
-<div class="auth-page">
-  <div class="auth-card" [class.login-frame]="mode() === 'login'" [class.register-frame]="mode() === 'register'">
-    
-    @if (mode() === 'login') {
-      <app-login></app-login>
-    } @else {
-      <app-register></app-register>
-    }
-
-    <div class="toggle-container">
-      <span class="text-muted">{{ modeContent() }}</span>
-      <button class="btn-ghost" (click)="toogleSignal()">{{ modeToogle() }}</button>
+<div class="auth-page-container">
+  <div class="auth-card custom-card">
+    <div class="auth-brand">
+      <h1 class="logo-text">Project<span>Flow</span></h1>
     </div>
-    
+
+    <div class="auth-body">
+      @if (isLoginMode()) {
+        <app-login></app-login>
+      } @else {
+        <app-register></app-register>
+      }
+    </div>
+
+    <div class="auth-footer">
+      <p class="toggle-text">
+        {{ isLoginMode() ? "Don't have an account?" : "Already have an account?" }}
+      </p>
+      <button mat-button class="btn-toggle" (click)="toggleMode()">
+        {{ isLoginMode() ? 'Sign Up Now' : 'Back to Login' }}
+      </button>
+    </div>
   </div>
 </div>

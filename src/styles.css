@@ -2,3 +2,43 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/* src/styles.css */
+:root {
+  --primary: #6366f1;    /* אינדיגו תוסס */
+  --secondary: #10b981;  /* ירוק אמרלד */
+  --accent: #f43f5e;     /* ורוד-אדום לשגיאות */
+  --bg-light: #f8faff;   /* לבן עם נגיעת כחול */
+  --white: #ffffff;
+  --text-main: #1e1b4b;  /* כחול כהה מאוד במקום שחור */
+  --shadow-color: rgba(99, 102, 241, 0.1);
+}
+
+body {
+  margin: 0;
+  font-family: 'Assistant', 'Segoe UI', sans-serif;
+  background-color: var(--bg-light);
+  color: var(--text-main);
+}
+
+/* כרטיסים לבנים עם צל צבעוני עדין */
+.custom-card {
+  background: var(--white);
+  border-radius: 16px;
+  box-shadow: 0 10px 25px var(--shadow-color);
+  border: 1px solid rgba(99, 102, 241, 0.05);
+}
+
+/* כפתורים רספונסיביים */
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), #8b5cf6) !important;
+  color: white !important;
+  border-radius: 12px !important;
+  padding: 10px 24px !important;
+  font-weight: 600 !important;
+  transition: transform 0.2s ease !important;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3) !important;
+}

@@ -3,15 +3,15 @@ import { TaskPriority } from './enums/task-priority';
 
 export interface Task {
   id: number;
-  projectId: number;
+  project_id: number;
   title: string;
   description: string;
   status: TaskStatus;
   priority: TaskPriority;
-  assigneeId: number;
-  dueDate: string;
-  orderIndex: number;
-  createdAt: string;
-  updatedAt: string;
+  assignee_id: number;
+  due_date: string;
+  order_index: number;
+  created_at: string;
+  updated_at: string;
 }
 

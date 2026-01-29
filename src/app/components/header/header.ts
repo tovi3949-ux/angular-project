@@ -23,6 +23,6 @@ export class Header {
   router = inject(Router);
   onLogout() {
     this.authService.logout();
-    this.router.navigate(['/login']);
+    this.router.navigate(['/auth']);
   }
 }

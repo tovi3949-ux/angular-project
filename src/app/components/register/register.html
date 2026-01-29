@@ -1,50 +1,42 @@
-<div class="auth-header">
-  <div>
-    <div class="auth-title">Register</div>
-    <div class="auth-sub">Create a new account to manage tasks</div>
-  </div>
-</div>
-@if(errorMassage()!= null) {
-<mat-error class="error-massage">
-    {{errorMassage()}}
-</mat-error>
-}
-<form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="form-container">
-  <mat-form-field appearance="outline">
-    <mat-label>Name</mat-label>
-    <input matInput type="text" formControlName="name" id="name" />
-    @if (registerForm.get('name')?.hasError('required')) {
+<h2 class="form-title">Create Account</h2>
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="form-layout">
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Full Name</mat-label>
+    <mat-icon matPrefix color="secondary">face</mat-icon>
+    <input matInput formControlName="name">
+    @if(registerForm.get('name')?.hasError('required')) {
       <mat-error>Name is required</mat-error>
     }
-    @if (registerForm.get('name')?.hasError('minlength') && !registerForm.get('name')?.hasError('required')) {
-      <mat-error>Name must be at least 2 characters long</mat-error>
+    @if(registerForm.get('name')?.hasError('minlength')) {
+      <mat-error>Name must be at least 3 characters long</mat-error>
     }
   </mat-form-field>
 
-  <mat-form-field appearance="outline">
+  <mat-form-field appearance="outline" class="full-width">
     <mat-label>Email</mat-label>
-    <input matInput type="email" formControlName="email" id="email" />
-    @if (registerForm.get('email')?.hasError('required')) {
+    <mat-icon matPrefix color="secondary">mail</mat-icon>
+    <input matInput formControlName="email" type="email">
+    @if(registerForm.get('email')?.hasError('email')) {
+      <mat-error>Enter a valid email</mat-error>
+    }
+    @if(registerForm.get('email')?.hasError('required')) {
       <mat-error>Email is required</mat-error>
     }
-    @if (registerForm.get('email')?.hasError('email') && !registerForm.get('email')?.hasError('required')) {
-      <mat-error>Please enter a valid email address</mat-error>
-    }
   </mat-form-field>
 
-  <mat-form-field appearance="outline">
+  <mat-form-field appearance="outline" class="full-width">
     <mat-label>Password</mat-label>
-    <input matInput type="password" formControlName="password" id="password" />
-    @if (registerForm.get('password')?.hasError('required')) {
+    <mat-icon matPrefix color="secondary">security</mat-icon>
+    <input matInput formControlName="password" type="password">
+    @if(registerForm.get('password')?.hasError('required')) {
       <mat-error>Password is required</mat-error>
     }
-    @if (registerForm.get('password')?.hasError('minlength') && !registerForm.get('password')?.hasError('required')) {
+    @if(registerForm.get('password')?.hasError('minlength')) {
       <mat-error>Password must be at least 6 characters long</mat-error>
     }
   </mat-form-field>
 
-  <div class="row" style="margin-top:8px;">
-    <div class="helper text-muted">By creating an account you agree to the terms</div>
-    <button matButton="tonal" class="submit-btn" type="submit" [disabled]="registerForm.invalid">Register</button>
-  </div>
+  <button mat-raised-button class="btn-secondary full-width" type="submit" [disabled]="registerForm.invalid">
+    Get Started
+  </button>
 </form>

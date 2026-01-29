@@ -1,45 +1,76 @@
-<div class="board-container">
-    <div class="column">
-        <div class="column-header">
-            <h2>To Do</h2>
-            <button mat-icon-button color="primary" (click)="openAddTask(TaskStatus.Todo)">
-                <mat-icon>add_circle</mat-icon>
-            </button>
-        </div>
-        <div class="task-list">
-            @for (t of todoTasks(); track t.id) {
-            <app-task-item [task]="t" (statusChanged)="onStatusChange(t.id, $event)"
-                (deleteRequested)="onDeleteRequest($event)" (taskClicked)="openTaskDetails($event)"></app-task-item>
-            }
-        </div>
-    </div>
+<div class="board-container" cdkDropListGroup>
+    <header class="main-header">
+        <h1 class="project-name">Project Flow Board</h1>
+    </header>
 
-    <div class="column">
-        <div class="column-header">
-            <h2>In Progress</h2>
-            <button mat-icon-button color="primary" (click)="openAddTask(TaskStatus.InProgress)">
-                <mat-icon>add_circle</mat-icon>
-            </button>
-        </div>
-        <div class="task-list">
-            @for (t of doingTasks(); track t.id) {
-            <app-task-item [task]="t" (statusChanged)="onStatusChange(t.id, $event)"
-                (deleteRequested)="onDeleteRequest($event)" (taskClicked)="openTaskDetails($event)">
-            </app-task-item>
-            }
-        </div>
-    </div>
+    <div class="kanban-grid">
+        <div class="column-box todo-zone">
+            <div class="column-header">
+                <div class="title-group">
+                    <mat-icon class="icon-indigo">format_list_bulleted</mat-icon>
+                    <h2>To Do</h2>
+                </div>
+                <button mat-icon-button class="add-inline-btn" (click)="openAddTask(TaskStatus.Todo)">
+                    <mat-icon>add_circle</mat-icon>
+                </button>
+            </div>
 
-    <div class="column">
-        <div class="column-header">
-            <h2>Done</h2>
+            <div class="task-list" cdkDropList [cdkDropListData]="todoTasks()"
+                (cdkDropListDropped)="drop($event, TaskStatus.Todo)">
+                @for (task of todoTasks(); track task.id) {
+                <app-task-item [task]="task" (statusChanged)="onStatusChange(task.id, $event)"
+                    (deleteRequested)="onDeleteRequest($event)" (taskClicked)="openTaskDetails($event)"
+                    cdkDrag></app-task-item>
+                } @empty {
+                <div class="empty-placeholder">Drop tasks here</div>
+                }
+            </div>
         </div>
-        <div class="task-list">
-            @for (t of doneTasks(); track t.id) {
-            <app-task-item [task]="t" (statusChanged)="onStatusChange(t.id, $event)"
-                (deleteRequested)="onDeleteRequest($event)" (taskClicked)="openTaskDetails($event)">
-            </app-task-item>
-            }
+
+        <div class="column-box progress-zone">
+            <div class="column-header">
+                <div class="title-group">
+                    <mat-icon class="icon-purple">pending</mat-icon>
+                    <h2>In Progress</h2>
+                </div>
+                <button mat-icon-button class="add-inline-btn" (click)="openAddTask(TaskStatus.InProgress)">
+                    <mat-icon>add_circle</mat-icon>
+                </button>
+            </div>
+
+            <div class="task-list" cdkDropList [cdkDropListData]="doingTasks()"
+                (cdkDropListDropped)="drop($event, TaskStatus.InProgress)">
+                @for (task of doingTasks(); track task.id) {
+                <app-task-item [task]="task" (statusChanged)="onStatusChange(task.id, $event)"
+                    (deleteRequested)="onDeleteRequest($event)" (taskClicked)="openTaskDetails($event)"
+                    cdkDrag></app-task-item>
+                } @empty {
+                <div class="empty-placeholder">Getting things done...</div>
+                }
+            </div>
+        </div>
+
+        <div class="column-box done-zone">
+            <div class="column-header">
+                <div class="title-group">
+                    <mat-icon class="icon-emerald">check_circle</mat-icon>
+                    <h2>Completed</h2>
+                </div>
+                <button mat-icon-button class="add-inline-btn" (click)="openAddTask(TaskStatus.Done)">
+                    <mat-icon>add_circle</mat-icon>
+                </button>
+            </div>
+
+            <div class="task-list" cdkDropList [cdkDropListData]="doneTasks()"
+                (cdkDropListDropped)="drop($event, TaskStatus.Done)">
+                @for (task of doneTasks(); track task.id) {
+                <app-task-item [task]="task" (statusChanged)="onStatusChange(task.id, $event)"
+                    (deleteRequested)="onDeleteRequest($event)" (taskClicked)="openTaskDetails($event)"
+                    cdkDrag></app-task-item>
+                } @empty {
+                <div class="empty-placeholder">All caught up!</div>
+                }
+            </div>
         </div>
     </div>
 </div>
@@ -71,10 +102,19 @@
                 <mat-option value="high">High</mat-option>
             </mat-select>
         </mat-form-field>
-    </mat-dialog-content>
 
+        <mat-form-field appearance="outline" class="due-date-field">
+            <mat-label>Due Date</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="dueDate" placeholder="Choose a date">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            @if(taskForm.get('dueDate')?.hasError('min')) {
+            <mat-error>Due date cannot be in the past</mat-error>
+            }
+        </mat-form-field>
+    </mat-dialog-content>
     <mat-dialog-actions align="end">
-        <button mat-button mat-dialog-close>cencel</button>
+        <button mat-button mat-dialog-close>cancel</button>
         <button mat-raised-button color="primary" (click)="confirmSaveTask()" [disabled]="taskForm.invalid">save
             task</button>
     </mat-dialog-actions>

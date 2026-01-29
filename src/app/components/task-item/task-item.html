@@ -1,28 +1,25 @@
-<mat-card class="task-card" (click)="onCardClick($event)">
-  <mat-card-content>
-    <div class="task-header">
-      <span class="priority-badge" [ngClass]="'priority-' + task().priority">
-        {{ task().priority }}
-      </span>
-      <button mat-icon-button color="warn" (click)="onDeleteClick()">
-        <mat-icon>delete_outline</mat-icon>
-      </button>
-    </div>
-    
-    <h3 class="task-title">{{ task().title }}</h3>
-    <p class="task-desc">{{ task().description || 'no description' }}</p>
-  </mat-card-content>
+<div class="task-card" cdkDrag>
+  <div class="task-header">
+    <span class="priority-badge" [ngClass]="getPriorityClass(task().priority)">
+      {{ task().priority | titlecase }} Priority
+    </span>
+  </div>
 
-  <mat-card-actions align="end">
-    @if (task().status === TaskStatus.Todo) {
-      <button mat-flat-button color="primary" (click)="changeStatus(TaskStatus.InProgress)">
-        <mat-icon>play_arrow</mat-icon> start
-      </button>
-    } 
-    @else if (task().status === TaskStatus.InProgress) {
-      <button mat-flat-button color="accent" (click)="changeStatus(TaskStatus.Done)">
-        <mat-icon>check</mat-icon> finish
-      </button>
+  <div class="task-content">
+    <h3 class="task-title">{{ task().title }}</h3>
+    @if (task().description) {
+      <p class="task-desc">{{ task().description | slice:0:60 }}{{ task().description.length > 60 ? '...' : '' }}</p>
     }
-  </mat-card-actions>
-</mat-card>
+  </div>
+
+  <div class="task-footer">
+    <div class="task-meta">
+      <mat-icon class="meta-icon">calendar_today</mat-icon>
+      <span class="meta-text">{{ task().due_date ? (task().due_date | date:'shortDate') : 'No due date' }}</span>
+    </div>
+    <button (click)="onTaskClick($event)" class="task-click-button">
+      <mat-icon>arrow_forward</mat-icon>
+      <span>View Details</span>
+    </button>
+  </div>
+</div>

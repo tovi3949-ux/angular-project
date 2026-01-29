@@ -1,64 +1,80 @@
 .board-container {
-  display: flex;
-  gap: 20px;
-  padding: 20px;
-  height: calc(100vh - 100px);
-  overflow-x: auto;
-  background-color: #f4f7f9;
+  padding: 30px;
+  background: #f8faff;
+  min-height: 100vh;
 }
 
-.column {
-  flex: 1;
-  min-width: 300px;
-  background-color: #ebedef;
-  border-radius: 8px;
+.kanban-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 25px;
+}
+
+.column-box {
+  background: white;
+  border-radius: 24px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(99, 102, 241, 0.05);
   display: flex;
   flex-direction: column;
-  padding: 10px;
 }
+
+/* הדגשות צבע לפי עמודה */
+.todo-zone { border-top: 6px solid #6366f1; }
+.progress-zone { border-top: 6px solid #8b5cf6; }
+.done-zone { border-top: 6px solid #10b981; }
 
 .column-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 10px;
+  margin-bottom: 20px;
 }
 
-.task-list {
-  flex: 1;
-  overflow-y: auto;
-}
-
-.task-card {
-  margin-bottom: 12px;
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-
-.task-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-.priority-badge {
-  font-size: 10px;
-  padding: 2px 8px;
-  border-radius: 12px;
-  text-transform: uppercase;
-  font-weight: bold;
-}
-
-.priority-high { background: #ffebee; color: #d32f2f; }
-.priority-medium { background: #fff3e0; color: #f57c00; }
-.priority-low { background: #e8f5e9; color: #388e3c; }
-
-.dialog-form {
+.title-group {
   display: flex;
-  flex-direction: column;
-  gap: 15px;
-  padding-top: 10px;
+  align-items: center;
+  gap: 10px;
+  color: #1e1b4b;
 }
 
+.add-inline-btn {
+  color: var(--secondary) !important; /* ירוק אמרלד */
+  transition: transform 0.2s ease;
+}
+
+.add-inline-btn:hover {
+  transform: scale(1.2);
+}
+
+/* אזור הגרירה */
+.task-list {
+  min-height: 400px;
+  background: rgba(248, 250, 255, 0.5); /* לבן עם שקיפות קלה */
+  border-radius: 16px;
+  padding: 10px;
+}
+
+/* עיצוב בזמן גרירה */
+.cdk-drag-preview {
+  box-shadow: 0 15px 35px rgba(99, 102, 241, 0.2) !important;
+  border-radius: 16px;
+}
+
+.cdk-drag-placeholder {
+  opacity: 0.3;
+  border: 2px dashed #6366f1;
+}
+
+.empty-placeholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  color: #6366f1;
+  font-weight: 500;
+  opacity: 0.5;
+}
 
 mat-form-field {
   width: 100%;

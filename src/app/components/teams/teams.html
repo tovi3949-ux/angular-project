@@ -1,33 +1,57 @@
-<div class="header-actions">
-  <button mat-fab extended color="primary" (click)="createTeam()">
-    <mat-icon>add</mat-icon>
-    Create Team
-  </button>
+<div class="teams-page-container">
+  <div class="header-section">
+    <h1 class="page-title">Your Teams</h1>
+    <button mat-fab extended class="btn-create" (click)="createTeam()">
+      <mat-icon>add_circle</mat-icon>
+      Create New Team
+    </button>
+  </div>
+
+  <div class="teams-grid">
+    @for (item of teams(); track item.id) {
+      <div class="team-card-wrapper custom-card">
+        <app-team-item [team]="item" class="clickable-item"></app-team-item>
+        
+        <div class="card-footer">
+          <button mat-button class="btn-add-member" (click)="addMember(item.id || 0)">
+            <mat-icon>person_add</mat-icon>
+            Add Member
+          </button>
+        </div>
+      </div>
+    } @empty {
+      <div class="empty-state custom-card">
+        <mat-icon class="empty-icon">group_add</mat-icon>
+        <p>No teams found. Start by creating your first team!</p>
+      </div>
+    }
+  </div>
 </div>
 
-<div class="teams-grid">
-  @for (item of teams(); track $index) {
-    <div class="team-card-wrapper">
-      <app-team-item [team]="item"></app-team-item>
-      
-      <div class="card-actions">
-        <button mat-button class="inner-add-btn" (click)="addMember(item.id||0)">
-          <mat-icon>person_add</mat-icon>
-          Add Member
-        </button>
-      </div>
-    </div>
-  } @empty {
-    <div class="empty-state">
-      <p>There aren't any teams yet, create one!</p>
-    </div>
-  }
-</div>
+<ng-template #createTeamDialog>
+  <div class="dialog-container">
+    <h2 mat-dialog-title>Create Team</h2>
+    <mat-dialog-content>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Team Name</mat-label>
+        <input matInput [(ngModel)]="newTeamName" placeholder="Enter team name" required/>
+        @if(createTeamErrorMassage() !== '') {
+          <mat-error>{{ createTeamErrorMassage() }}</mat-error>
+        }
+      </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button mat-button (click)="closeCreateTeamDialog()" class="btn-cancel">Cancel</button>
+      <button mat-raised-button color="primary" (click)="confirmCreateTeam()" class="btn-confirm">Create</button>
+    </mat-dialog-actions>
+  </div>
+</ng-template>
+
 <ng-template #addMemberDialog let-data>
 <mat-dialog-content>
   <mat-form-field appearance="outline">
     <mat-label>User ID</mat-label>
-    <input matInput type="number" name="user-id" [(ngModel)]="newMemberId"  required/>
+    <input matInput type="number" name="user-id" [(ngModel)]="newMemberId" min="1" required/>
     @if(addMemberErrorMassage() !== '') {
       <mat-error>{{ addMemberErrorMassage() }}</mat-error>
     }
@@ -38,20 +62,3 @@
   <button mat-button (click)="confirmAddMember(data.teamId)">Add</button>
 </mat-dialog-actions>
 </ng-template>
-
-<ng-template #createTeamDialog>
-<mat-dialog-content>
-  <mat-form-field appearance="outline">
-    <mat-label>Team Name</mat-label>
-    <input matInput [(ngModel)]="newTeamName" required/>
-    @if(createTeamErrorMassage() !== '') {
-      <mat-error>{{ createTeamErrorMassage() }}</mat-error>
-    }
-  </mat-form-field>
-</mat-dialog-content>
-<mat-dialog-actions>
-  <button mat-button (click)="closeCreateTeamDialog()">Cancel</button>
-  <button mat-button (click)="confirmCreateTeam()">Create</button>
-</mat-dialog-actions>
-</ng-template>
-

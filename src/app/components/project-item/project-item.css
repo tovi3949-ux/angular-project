@@ -1,51 +1,61 @@
 :host {
   display: block;
-  flex: 1; /* לוקח את כל השטח הפנוי בריבוע מעל הכפתור */
 }
 
-mat-card {
-  background: transparent !important;
-  box-shadow: none !important;
-  border: none !important;
-  height: 100%;
+.project-minimal-card {
+  background: #ffffff !important;
+  border-radius: 12px !important;
+  border: 1px solid rgba(99, 102, 241, 0.1) !important; /* גבול אינדיגו עדין מאוד */
+  box-shadow: 0 4px 10px rgba(99, 102, 241, 0.03) !important;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  padding: 15px !important;
+  height: 180px; /* גובה קבוע שיוצר ריבוע יפה בגריד */
   display: flex;
   flex-direction: column;
-  justify-content: center; /* מרכז את הטקסט בתוך הריבוע */
-  text-align: center;
 }
 
-mat-card-title {
-  font-size: 1.5rem !important;
-  margin-bottom: 8px !important;
-}
-mat-card {
-  border-radius: 24px !important;
-  padding: 16px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  background-color: var(--mat-sys-surface);
-  border: 1px solid var(--mat-sys-outline-variant);
-  box-shadow: none !important; /* מראה שטוח ומודרני */
+/* פס צבע עליון - כמו ב-team-item */
+.accent-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: #6366f1; /* צבע אינדיגו */
 }
 
-mat-card:hover {
-  transform: translateY(-4px); /* אפקט ריחופ עדין */
-  box-shadow: 0 8px 16px rgba(0,0,0,0.08) !important;
-  border-color: var(--mat-sys-primary);
+.project-minimal-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(99, 102, 241, 0.1) !important;
+  border-color: rgba(99, 102, 241, 0.3) !important;
 }
 
-mat-card-title {
-  font-size: 1.25rem !important;
+.project-name {
+  color: #1e1b4b !important; /* כחול כהה מאוד במקום שחור */
+  font-size: 1.2rem !important;
+  font-weight: 700 !important;
+  margin-top: 5px !important;
+}
+
+.project-meta {
+  color: #6366f1 !important; /* צבע אינדיגו לטקסט המשני */
+  font-size: 0.8rem !important;
   font-weight: 600 !important;
-  color: var(--mat-sys-primary) !important;
-  margin-bottom: 12px !important;
+  letter-spacing: 0.5px;
 }
 
-mat-card-subtitle {
-  font-size: 0.875rem !important;
-  color: var(--mat-sys-on-surface-variant) !important;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 4px !important;
+.description-text {
+  color: #4338ca; /* כחול בינוני במקום אפור */
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-top: 15px;
+  opacity: 0.8;
+  /* חיתוך טקסט אם הוא ארוך מדי */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
-

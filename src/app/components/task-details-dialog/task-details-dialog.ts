@@ -11,6 +11,7 @@ import { Task } from '../../models/task';
 import { TaskComment } from '../../models/taskComment';
 import { CommentsService } from '../../services/comments/comments';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from '../../services/auth/auth';
 
 @Component({
   selector: 'app-task-details-dialog',
@@ -26,7 +27,7 @@ export class TaskDetailsDialog implements OnInit {
   data = inject<{ task: Task }>(MAT_DIALOG_DATA);
   private commentsService = inject(CommentsService);
   private snackBar = inject(MatSnackBar);
-
+  authService = inject(AuthService);
   comments = signal<TaskComment[]>([]);
   newCommentBody = '';
 
@@ -41,15 +42,31 @@ export class TaskDetailsDialog implements OnInit {
     });
   }
 
-  sendComment() {
+sendComment() {
     if (!this.newCommentBody.trim()) return;
 
     this.commentsService.createComment(this.data.task.id, this.newCommentBody).subscribe({
       next: (newComment) => {
+        if (!newComment.author_name) {
+          newComment.author_name = this.authService.currentUser()?.name || 'Me';
+        }
+        
         this.comments.update(prev => [newComment, ...prev]);
         this.newCommentBody = '';
       },
       error: () => this.snackBar.open('Error sending comment', 'Close', { duration: 3000 })
     });
+  }
+  getUserColor(name: string): string {
+    if (!name) return '#000000';
+  const colors = ['#6366f1', '#10b981', '#f43f5e', '#8b5cf6', '#fbbf24'];
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) {
+    hash = name.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return colors[Math.abs(hash) % colors.length];
+}
+isMyComment(comment: TaskComment): boolean {
+return comment.user_id === this.authService.currentUser()?.id;
   }
 }

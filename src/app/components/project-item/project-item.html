@@ -1,5 +1,14 @@
-<mat-card>
-    <mat-card-title>{{ project()?.name }}</mat-card-title>
-    <mat-card-subtitle>Description: {{ project()?.description || 'No description' }}</mat-card-subtitle>
-    <mat-card-subtitle>Created at: {{ project()?.created_at | date:'medium' }}</mat-card-subtitle>
+<mat-card class="project-minimal-card">
+  <div class="accent-bar"></div>
+  
+  <mat-card-header>
+    <mat-card-title class="project-name">{{ project()?.name }}</mat-card-title>
+    <mat-card-subtitle class="project-meta">Project #{{ project()?.id }}</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <p class="description-text">
+      {{ project()?.description || 'No description available for this project.' }}
+    </p>
+  </mat-card-content>
 </mat-card>

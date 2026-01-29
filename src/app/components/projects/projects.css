@@ -1,4 +1,88 @@
+/* src/app/components/projects/projects.css */
+.projects-container {
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
 
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin: 0;
+}
+
+/* הגדרת הריבועים המסודרים */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* יוצר ריבועים שמתאימים לרוחב המסך */
+  gap: 24px;
+}
+
+/* עיצוב המצב הריק */
+.empty-state-wrapper {
+  grid-column: 1 / -1; /* תופס את כל רוחב הגריד */
+  display: flex;
+  justify-content: center;
+  padding: 60px 0;
+}
+
+.empty-card {
+  text-align: center;
+  padding: 48px;
+  max-width: 500px;
+  background: white;
+  border: 2px dashed rgba(99, 102, 241, 0.2); /* בורדר מקווקו צבעוני */
+}
+
+.empty-icon {
+  font-size: 80px;
+  height: 80px;
+  width: 80px;
+  color: var(--secondary);
+  margin-bottom: 24px;
+  opacity: 0.6;
+}
+
+.empty-card h2 {
+  color: var(--text-main);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.empty-card p {
+  color: #4338ca; /* כחול כהה */
+  margin-bottom: 24px;
+}
+
+/* src/app/components/projects/projects.css */
+.projects-grid {
+  display: grid;
+  /* יצירת ריבועים מסודרים שמתאימים את עצמם לרוחב המסך */
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 32px;
+  padding: 20px 0;
+}
+
+@media (max-width: 600px) {
+  .projects-grid {
+    grid-template-columns: 1fr; /* בנייד קטן הם יהיו אחד מתחת לשני, אבל רחבים ויפים */
+    gap: 20px;
+  }
+}
+
+.page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
 
 mat-form-field {
   width: 100%;

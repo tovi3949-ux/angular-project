@@ -85,7 +85,8 @@ export class Teams implements OnInit {
           this.addMemberErrorMassage.set('An error occurred while adding the member.');
         }
       });
-    } else {
+    }
+    else {
       this.addMemberErrorMassage.set('User ID must be a valid number.');
     }
   }

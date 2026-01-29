@@ -3,9 +3,10 @@ import { ReactiveFormsModule ,FormGroup, FormControl, Validators} from '@angular
 import { AuthService } from '../../services/auth/auth';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule, MatInputModule, MatButtonModule],
+  imports: [ReactiveFormsModule, MatInputModule, MatButtonModule, MatIcon],
   templateUrl: './register.html',
   styleUrl: './register.css',
   standalone: true,

@@ -10,22 +10,23 @@ import { FormGroup, FormControl, FormsModule, Validators, ReactiveFormsModule } 
 import { MatIcon } from '@angular/material/icon';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
+import { MatMenuContent } from "@angular/material/menu";
 
 @Component({
   selector: 'app-projects',
   standalone: true,
   imports: [
-    ProjectItem, 
-    MatButtonModule, 
-    MatDialogModule, 
-    MatFormField, 
-    MatLabel, 
-    FormsModule, 
-    MatInputModule, 
-    MatIcon, 
-    ReactiveFormsModule, 
-    MatError
-  ],
+    ProjectItem,
+    MatButtonModule,
+    MatDialogModule,
+    MatFormField,
+    MatLabel,
+    FormsModule,
+    MatInputModule,
+    MatIcon,
+    ReactiveFormsModule,
+    MatError,
+],
   templateUrl: './projects.html',
   styleUrl: './projects.css',
 })

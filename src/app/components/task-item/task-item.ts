@@ -15,7 +15,7 @@ import { MatIconModule } from "@angular/material/icon";
 })
 export class TaskItem {
   task = input.required<Task>();
-  
+
   statusChanged = output<TaskStatus>();
   deleteRequested = output<Task>();
 
@@ -31,9 +31,21 @@ export class TaskItem {
 
   taskClicked = output<Task>();
 
-onCardClick(event: MouseEvent) {
-  const target = event.target as HTMLElement;
-  if (target.closest('button')) return;
-  this.taskClicked.emit(this.task());
-}
+  onCardClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (target.closest('button')) return;
+    this.taskClicked.emit(this.task());
+  }
+  getPriorityClass(priority: string): string {
+    switch (priority.toLowerCase()) {
+      case 'high': return 'priority-high';
+      case 'medium': return 'priority-medium';
+      case 'low': return 'priority-low';
+      default: return 'priority-low';
+    }
+  }
+  onTaskClick(event: MouseEvent) {
+    event.stopPropagation();
+    this.taskClicked.emit(this.task());
+  }
 }
