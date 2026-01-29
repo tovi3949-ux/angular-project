@@ -20,6 +20,7 @@
                 @for (task of todoTasks(); track task.id) {
                 <app-task-item [task]="task" (statusChanged)="onStatusChange(task.id, $event)"
                     (deleteRequested)="onDeleteRequest($event)" (taskClicked)="openTaskDetails($event)"
+                    (priorityUpdateRequested)="onPriorityUpdate($event)"
                     cdkDrag></app-task-item>
                 } @empty {
                 <div class="empty-placeholder">Drop tasks here</div>
@@ -43,6 +44,7 @@
                 @for (task of doingTasks(); track task.id) {
                 <app-task-item [task]="task" (statusChanged)="onStatusChange(task.id, $event)"
                     (deleteRequested)="onDeleteRequest($event)" (taskClicked)="openTaskDetails($event)"
+                    (priorityUpdateRequested)="onPriorityUpdate($event)"
                     cdkDrag></app-task-item>
                 } @empty {
                 <div class="empty-placeholder">Getting things done...</div>
@@ -66,6 +68,7 @@
                 @for (task of doneTasks(); track task.id) {
                 <app-task-item [task]="task" (statusChanged)="onStatusChange(task.id, $event)"
                     (deleteRequested)="onDeleteRequest($event)" (taskClicked)="openTaskDetails($event)"
+                    (priorityUpdateRequested)="onPriorityUpdate($event)"
                     cdkDrag></app-task-item>
                 } @empty {
                 <div class="empty-placeholder">All caught up!</div>

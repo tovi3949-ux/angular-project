@@ -104,6 +104,12 @@ export class TaskBoard implements OnInit {
     });
   }
 
+  onPriorityUpdate(event: { task: Task; newPriority: TaskPriority }) {
+    this.tasksService.updateTask(event.task.id, { priority: event.newPriority }).subscribe(() => {
+      this.snackBar.open(`priority updated to ${event.newPriority}`, '', { duration: 2000 });
+    });
+  }
+
   openTaskDetails(task: Task) {
     this.dialog.open(TaskDetailsDialog, {
       width: '550px',
