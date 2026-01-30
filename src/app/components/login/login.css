@@ -44,6 +44,16 @@
 mat-form-field {
   width: 100%;
 }
+.alert-error {
+  color: red;
+  margin-bottom: 16px;
+  font-size: 0.9rem;
+  padding: 10px;
+  border: 1px solid red;
+  border-radius: 8px;
+  background-color: #ffe5e5;
+  margin: 16px 0;
+}
 
 ::ng-deep .mat-mdc-text-field-wrapper .mdc-notched-outline__leading,
 ::ng-deep .mat-mdc-text-field-wrapper .mdc-notched-outline__trailing,

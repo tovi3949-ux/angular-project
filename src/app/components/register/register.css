@@ -20,6 +20,16 @@
   margin-bottom: 8px;
 }
 
+.alert-error {
+  color: red;
+  margin-bottom: 16px;
+  font-size: 0.9rem;
+  padding: 10px;
+  border: 1px solid red;
+  border-radius: 8px;
+  background-color: #ffe5e5;
+  margin: 16px 0;
+}
 .subtitle {
   color: #6366f1; /* צבע כחלחל במקום אפור */
   margin-bottom: 32px;

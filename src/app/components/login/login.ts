@@ -28,7 +28,12 @@ export class Login {
       const { email, password } = this.loginForm.getRawValue();
       this.authService.login({ email: email!, password: password! }).subscribe({
         next: () => this.router.navigate(['/teams']),
-        error: () => this.errorMassage.set('Invalid credentials')
+        error: (err) => {
+          if (err.status === 401) {
+          this.errorMassage.set('Invalid email or password');
+          } else {
+          this.errorMassage.set('Login failed: An unexpected error occurred');
+          }}
       });
     }
   }
