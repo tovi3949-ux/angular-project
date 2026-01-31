@@ -31,23 +31,23 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
+    sessionStorage.removeItem('user');
+    sessionStorage.removeItem('token');
     this.currentUser.set(null);
   }
 
   getToken(): string | null {
-    return localStorage.getItem('token');
+    return sessionStorage.getItem('token');
   }
 
   private setSession(res: AuthResponse): void {
-    localStorage.setItem('user', JSON.stringify(res.user));
-    localStorage.setItem('token', res.token);
+    sessionStorage.setItem('user', JSON.stringify(res.user));
+    sessionStorage.setItem('token', res.token);
     this.currentUser.set(res.user);
   }
 
   private getUserFromStorage(): User | null {
-    const userJson = localStorage.getItem('user');
+    const userJson = sessionStorage.getItem('user');
     try {
       return userJson ? JSON.parse(userJson) : null;
     } catch {
