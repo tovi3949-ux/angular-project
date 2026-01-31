@@ -39,6 +39,7 @@ export class TaskBoard implements OnInit {
   todoTasks = computed(() => this.allTasks().filter(t => t.status === TaskStatus.Todo));
   doingTasks = computed(() => this.allTasks().filter(t => t.status === TaskStatus.InProgress));
   doneTasks = computed(() => this.allTasks().filter(t => t.status === TaskStatus.Done));
+  nimDate = new Date();
 
   protected readonly TaskStatus = TaskStatus;
 
@@ -47,10 +48,7 @@ export class TaskBoard implements OnInit {
     description: new FormControl(''),
     priority: new FormControl(TaskPriority.Low),
     status: new FormControl(TaskStatus.Todo),
-    due_date: new FormControl('', [(thisDate) => {
-      const date = new Date(thisDate.value);
-      return isNaN(date.getTime()) ? { invalidDate: true } : null;
-    }]),
+    dueDate: new FormControl(null, [ Validators.required]),
   });
 
   @ViewChild('taskDialog') taskDialogTpl!: TemplateRef<any>;
@@ -66,19 +64,18 @@ export class TaskBoard implements OnInit {
       priority: TaskPriority.Low,
       title: '',
       description: '',
-      due_date: ''
+      dueDate: null
     });
     this.dialog.open(this.taskDialogTpl, { width: '400px' });
   }
 
   confirmSaveTask() {
     if (this.taskForm.invalid) return;
-
+    console.log(this.projectId(), this.taskForm.value);
     const newTask = {
       ...this.taskForm.value,
-      project_id: Number(this.projectId())
+      projectId: Number(this.projectId())
     };
-    console.log(newTask);
     this.tasksService.createTask(newTask as Task).subscribe({
       next: () => {
         this.snackBar.open('task added successfully', '', { duration: 2000 });

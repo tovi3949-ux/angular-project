@@ -108,11 +108,11 @@
 
         <mat-form-field appearance="outline" class="due-date-field">
             <mat-label>Due Date</mat-label>
-            <input matInput [matDatepicker]="picker" formControlName="dueDate" placeholder="Choose a date">
+            <input matInput [matDatepicker]="picker" formControlName="dueDate" placeholder="Choose a date" [min]="nimDate">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-            @if(taskForm.get('dueDate')?.hasError('min')) {
-            <mat-error>Due date cannot be in the past</mat-error>
+            <mat-datepicker #picker ></mat-datepicker>
+            @if(taskForm.get('dueDate')?.hasError('required')) {
+            <mat-error>Due date is required</mat-error>
             }
         </mat-form-field>
     </mat-dialog-content>

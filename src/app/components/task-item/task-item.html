@@ -15,7 +15,7 @@
   <div class="task-footer">
     <div class="task-meta">
       <mat-icon class="meta-icon">calendar_today</mat-icon>
-      <span class="meta-text">{{ task().due_date ? (task().due_date | date:'shortDate') : 'No due date' }}</span>
+      <span class="meta-text">{{ task().dueDate ? (task().dueDate | date:'shortDate') : 'No due date' }}</span>
     </div>
     <div class="task-actions">
       <button (click)="onUpdatePriority($event)" class="task-action-button priority-button" matTooltip="Update Priority">
