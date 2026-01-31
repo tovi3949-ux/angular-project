@@ -1,5 +1,4 @@
 import { Component, inject, signal, TemplateRef, ViewChild, OnInit } from '@angular/core';
-import { Team } from '../../models/team';
 import { TeamsService } from '../../services/teams/teams';
 import { TeamItem } from '../team-item/team-item';
 import { MatButtonModule } from "@angular/material/button";

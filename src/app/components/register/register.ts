@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
   standalone: true,
 })
 export class Register {
-  authService = new AuthService();
+  authService = inject(AuthService);
   router = inject(Router);
 
   registerForm = new FormGroup({
@@ -23,6 +23,7 @@ export class Register {
   });
   errorMassage = signal<string | null>(null);
   onSubmit() {
+    
     const { name, email, password } = this.registerForm.value;
     if (typeof email == 'string' && typeof password == 'string' && typeof name == 'string')
       this.authService.register({ name, email, password }).subscribe({

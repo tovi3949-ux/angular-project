@@ -14,16 +14,19 @@ export class AuthService {
 
   currentUser = signal<User | null>(this.getUserFromStorage());
   isLoggedIn = computed(() => !!this.currentUser());
-
   login(credentials: { email: string; password: string }): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.URL}/login`, credentials).pipe(
-      tap((res) => this.setSession(res))
+      tap((res) => {
+        this.setSession(res)
+      })
     );
   }
 
   register(data: { name: string; email: string; password: string }): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.URL}/register`, data).pipe(
-      tap((res) => this.setSession(res))
+      tap((res) => {
+        this.setSession(res)
+      })
     );
   }
 
