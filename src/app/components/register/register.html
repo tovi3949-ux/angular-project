@@ -38,7 +38,16 @@
   @if (errorMassage()) {
     <div class="alert-error">{{ errorMassage() }}</div>
   }
-  <button mat-raised-button class="btn-secondary full-width" type="submit" [disabled]="registerForm.invalid">
-    Get Started
+  <button mat-raised-button class="btn-secondary full-width" type="submit" [disabled]="registerForm.invalid||isLoading()">
+    @if (isLoading()) {
+      <mat-progress-spinner
+        diameter="20"
+        mode="indeterminate"
+        color="accent">
+      </mat-progress-spinner>
+    } 
+    @else {
+      Get Started
+    }
   </button>
 </form>

@@ -8,11 +8,13 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatIcon } from '@angular/material/icon';
 import { toSignal } from '@angular/core/rxjs-interop'; 
-
+import { finalize } from 'rxjs/internal/operators/finalize';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 @Component({
   selector: 'app-teams',
   standalone: true,
-  imports: [TeamItem, MatButtonModule, MatDialogModule, MatFormField, MatLabel, FormsModule, MatInputModule, MatIcon, MatError],
+  imports: [TeamItem, MatButtonModule, MatDialogModule, MatFormField, MatLabel, FormsModule, MatInputModule, MatIcon, MatError, MatProgressSpinner],
   templateUrl: './teams.html',
   styleUrls: ['./teams.css'],
 })
@@ -20,12 +22,23 @@ export class Teams implements OnInit {
   teamService = inject(TeamsService);
   
   teams = toSignal(this.teamService.teams$, { initialValue: [] });
-
+  isLoading = signal<boolean>(false);
+  isCreatingTeam = signal<boolean>(false);
+    private snackBar = inject(MatSnackBar);
+  
   addMemberErrorMassage = signal<string>('');
   createTeamErrorMassage = signal<string>('');
-  
   ngOnInit() {
-        this.teamService.getTeams().subscribe();
+    this.isLoading.set(true);
+        this.teamService.getTeams()
+        .pipe(finalize(() => this.isLoading.set(false)))
+        .subscribe(
+          error => {
+            this.snackBar.open('Failed to load teams', 'Close', { duration: 3000 });
+          }
+        );
+
+
   }
 
   @ViewChild('createTeamDialog') createTeamTpl!: TemplateRef<any>;
@@ -36,6 +49,7 @@ export class Teams implements OnInit {
   newTeamName: string = '';
 
   createTeam() {
+
     this.createTeamErrorMassage.set('');
     this.dialog.open(this.createTeamTpl, { width: '250px' });
   }
@@ -50,8 +64,10 @@ export class Teams implements OnInit {
       this.createTeamErrorMassage.set('Team name cannot be empty.');
       return;
     }
-    
-    this.teamService.createTeam({ name: this.newTeamName }).subscribe({
+    this.isCreatingTeam.set(true);
+    this.teamService.createTeam({ name: this.newTeamName })
+    .pipe(finalize(() => this.isCreatingTeam.set(false)))
+    .subscribe({
       next: () => {
         this.closeCreateTeamDialog();
       },

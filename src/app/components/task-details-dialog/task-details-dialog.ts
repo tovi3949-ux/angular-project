@@ -12,13 +12,16 @@ import { TaskComment } from '../../models/taskComment';
 import { CommentsService } from '../../services/comments/comments';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '../../services/auth/auth';
-
+import { finalize } from 'rxjs/internal/operators/finalize';
+import { MatProgressBar } from '@angular/material/progress-bar';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 @Component({
   selector: 'app-task-details-dialog',
   standalone: true,
   imports: [
     CommonModule, MatDialogModule, MatButtonModule, MatIconModule, 
-    MatFormFieldModule, MatInputModule, FormsModule, MatDividerModule
+    MatFormFieldModule, MatInputModule, FormsModule, MatDividerModule,
+    MatProgressBar, MatProgressSpinner
   ],
   templateUrl: './task-details-dialog.html',
   styleUrl: './task-details-dialog.css'
@@ -30,13 +33,17 @@ export class TaskDetailsDialog implements OnInit {
   authService = inject(AuthService);
   comments = signal<TaskComment[]>([]);
   newCommentBody = '';
-
+  isLoadingComments = signal<boolean>(false);
+  isSendingComment = signal<boolean>(false);
   ngOnInit() {
     this.loadComments();
   }
 
   loadComments() {
-    this.commentsService.getCommentsByTask(this.data.task.id).subscribe({
+    this.isLoadingComments.set(true);
+    this.commentsService.getCommentsByTask(this.data.task.id)
+    .pipe(finalize(() => this.isLoadingComments.set(false)))
+    .subscribe({
       next: (res) => this.comments.set(res),
       error: () => this.snackBar.open('Error loading comments', 'Close', { duration: 3000 })
     });
@@ -44,8 +51,10 @@ export class TaskDetailsDialog implements OnInit {
 
 sendComment() {
     if (!this.newCommentBody.trim()) return;
-
-    this.commentsService.createComment(this.data.task.id, this.newCommentBody).subscribe({
+    this.isSendingComment.set(true);
+    this.commentsService.createComment(this.data.task.id, this.newCommentBody)
+    .pipe(finalize(() => this.isSendingComment.set(false)))
+    .subscribe({
       next: (newComment) => {
         if (!newComment.author_name) {
           newComment.author_name = this.authService.currentUser()?.name || 'Me';

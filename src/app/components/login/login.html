@@ -28,7 +28,16 @@
     <div class="alert-error">{{ errorMassage() }}</div>
   }
 
-  <button mat-raised-button class="btn-primary full-width" type="submit" [disabled]="loginForm.invalid">
-    Login
+  <button mat-raised-button class="btn-primary full-width" type="submit" [disabled]="loginForm.invalid||isLoading()">
+    @if (isLoading()) {
+      <mat-progress-spinner
+        diameter="20"
+        mode="indeterminate"
+        color="accent">
+      </mat-progress-spinner>
+    } 
+    @else {
+      Login
+    }
   </button>
 </form>

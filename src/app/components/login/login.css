@@ -55,8 +55,16 @@ mat-form-field {
   margin: 16px 0;
 }
 
+.button-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 24px;
+}
+
 ::ng-deep .mat-mdc-text-field-wrapper .mdc-notched-outline__leading,
 ::ng-deep .mat-mdc-text-field-wrapper .mdc-notched-outline__trailing,
 ::ng-deep .mat-mdc-text-field-wrapper .mdc-notched-outline__notch {
   border-radius: 12px !important; /* פינות מעוגלות לשדות */
 }
+

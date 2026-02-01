@@ -19,7 +19,12 @@
   font-size: 2rem;
   margin-bottom: 8px;
 }
-
+.button-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 24px; 
+}
 .alert-error {
   color: red;
   margin-bottom: 16px;

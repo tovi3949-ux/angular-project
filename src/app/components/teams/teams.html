@@ -1,3 +1,15 @@
+@if (isLoading()) {
+  <div class="skeleton-board">
+    @for (item of [1,2,3]; track $index) {
+      <div class="skeleton-column">
+        <div class="skeleton-header"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+      </div>
+    }
+  </div>
+}
+@else {
 <div class="teams-page-container">
   <div class="header-section">
     <h1 class="page-title">Your Teams</h1>
@@ -27,7 +39,7 @@
     }
   </div>
 </div>
-
+}
 <ng-template #createTeamDialog>
   <div class="dialog-container">
     <h2 mat-dialog-title>Create Team</h2>
@@ -42,7 +54,13 @@
     </mat-dialog-content>
     <mat-dialog-actions align="end">
       <button mat-button (click)="closeCreateTeamDialog()" class="btn-cancel">Cancel</button>
-      <button mat-raised-button color="primary" (click)="confirmCreateTeam()" class="btn-confirm">Create</button>
+      <button mat-raised-button color="primary" (click)="confirmCreateTeam()" class="btn-confirm button-content" [disabled]="isCreatingTeam()">
+        @if(isCreatingTeam()) {
+          <mat-progress-spinner diameter="20" mode="indeterminate"></mat-progress-spinner>
+        } @else {
+          Create
+        }
+      </button>
     </mat-dialog-actions>
   </div>
 </ng-template>
@@ -59,6 +77,12 @@
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-button (click)="closeAddMemberDialog()">Cancel</button>
-  <button mat-button (click)="confirmAddMember(data.teamId)">Add</button>
+  <button mat-button (click)="confirmAddMember(data.teamId)" [disabled]="isCreatingTeam()" class="button-content">
+    @if(isCreatingTeam()) {
+      <mat-progress-spinner diameter="20" mode="indeterminate"></mat-progress-spinner>
+    } @else {
+      Add
+    }
+  </button>
 </mat-dialog-actions>
 </ng-template>

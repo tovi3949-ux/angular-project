@@ -3,6 +3,9 @@
     <span class="priority-badge" [ngClass]="getPriorityClass(task().priority)">
       {{ task().priority | titlecase }} Priority
     </span>
+    <button (click)="onDeleteClick()" class="delete-button" mat-icon-button>
+      <mat-icon>delete</mat-icon>
+    </button>
   </div>
 
   <div class="task-content">

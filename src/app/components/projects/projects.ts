@@ -11,7 +11,9 @@ import { MatIcon } from '@angular/material/icon';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { MatMenuContent } from "@angular/material/menu";
-
+import { finalize } from 'rxjs/internal/operators/finalize';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-projects',
   standalone: true,
@@ -26,12 +28,16 @@ import { MatMenuContent } from "@angular/material/menu";
     MatIcon,
     ReactiveFormsModule,
     MatError,
+    MatProgressSpinner
 ],
   templateUrl: './projects.html',
   styleUrl: './projects.css',
 })
 export class Projects implements OnInit {
+  isLoading = signal<boolean>(false);
+  isCreating = signal<boolean>(false);
   projectService = inject(ProjectService);
+  private snackBar = inject(MatSnackBar);
   dialog = inject(MatDialog);
   router = inject(Router);  
   teamId = input<string>('');
@@ -46,7 +52,13 @@ export class Projects implements OnInit {
   @ViewChild('createProjectDialog') createProjectTpl!: TemplateRef<any>;
 
   ngOnInit() {
-    this.projectService.getProjects(this.teamId()).subscribe();
+    this.isLoading.set(true)
+    this.projectService.getProjects(this.teamId()).subscribe(
+      error => {
+        this.snackBar.open('An error occurred while loading projects.', 'Close', { duration: 3000 });
+      }
+    );
+    this.isLoading.set(false)
   }
 
   createProject() {
@@ -65,14 +77,16 @@ export class Projects implements OnInit {
     if (this.addProjectForm.invalid) {
       return;
     }
-
+    this.isCreating.set(true);
     const { name, description } = this.addProjectForm.value;
     
     this.projectService.createProject({ 
       name: name || '', 
       description: description || '', 
       teamId: this.teamId()
-    }).subscribe({
+    })
+    .pipe(finalize(() => this.isCreating.set(false)))
+    .subscribe({
       next: () => {
         this.closeCreateProjectDialog();
       },

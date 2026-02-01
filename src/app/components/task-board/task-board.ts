@@ -1,4 +1,4 @@
-import { Component, inject, input, computed, OnInit, ViewChild, TemplateRef } from '@angular/core';
+import { Component, inject, input, computed, OnInit, ViewChild, TemplateRef, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TasksService } from '../../services/tasks/tasks';
 import { TaskItem } from '../task-item/task-item';
@@ -17,13 +17,15 @@ import { MatSelectModule } from '@angular/material/select';
 import { TaskDetailsDialog } from '../task-details-dialog/task-details-dialog';
 import { CdkDragDrop, moveItemInArray, transferArrayItem, DragDropModule } from '@angular/cdk/drag-drop';
 import { MatDatepicker, MatDatepickerToggle, MatDateRangePicker, MatDatepickerInput } from '@angular/material/datepicker';
+import { finalize } from 'rxjs/internal/operators/finalize';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 @Component({
   selector: 'app-task-board',
   standalone: true,
   imports: [
     CommonModule, TaskItem, MatButtonModule, MatIconModule, MatDialogModule, DragDropModule,
     MatSnackBarModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatDatepicker, MatDatepickerToggle,
-    MatDatepickerInput
+    MatDatepickerInput, MatProgressSpinner
 ],
   templateUrl: './task-board.html',
   styleUrl: './task-board.css'
@@ -32,7 +34,8 @@ export class TaskBoard implements OnInit {
   private tasksService = inject(TasksService);
   private dialog = inject(MatDialog);
   private snackBar = inject(MatSnackBar);
-
+  isInitialLoading = signal(true);
+  isCreatingTask = signal(false);
   projectId = input.required<string>();
   allTasks = toSignal(this.tasksService.tasks$, { initialValue: [] as Task[] });
 
@@ -55,7 +58,12 @@ export class TaskBoard implements OnInit {
   @ViewChild('deleteConfirmDialog') deleteConfirmTpl!: TemplateRef<any>;
 
   ngOnInit() {
-    this.tasksService.getAllByProject(Number(this.projectId())).subscribe();
+    this.isInitialLoading.set(true);
+    this.tasksService.getAllByProject(Number(this.projectId()))
+    .pipe(finalize(() => this.isInitialLoading.set(false)))
+    .subscribe({
+      error: () => this.snackBar.open('Error loading tasks', 'Close', { duration: 3000 })
+    });
   }
 
   openAddTask(status: TaskStatus) {
@@ -71,15 +79,23 @@ export class TaskBoard implements OnInit {
 
   confirmSaveTask() {
     if (this.taskForm.invalid) return;
+    this.isCreatingTask.set(true);
     console.log(this.projectId(), this.taskForm.value);
     const newTask = {
       ...this.taskForm.value,
       projectId: Number(this.projectId())
     };
-    this.tasksService.createTask(newTask as Task).subscribe({
+    this.tasksService.createTask(newTask as Task)
+    .pipe(finalize(() => this.isCreatingTask.set(false))) 
+    .subscribe({
       next: () => {
         this.snackBar.open('task added successfully', '', { duration: 2000 });
         this.dialog.closeAll();
+        this.isCreatingTask.set(false);
+      },
+      error: () => {
+        this.snackBar.open('Error adding task', 'Close', { duration: 3000 });
+        this.isCreatingTask.set(false);
       }
     });
   }

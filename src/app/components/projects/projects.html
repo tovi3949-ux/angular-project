@@ -1,3 +1,16 @@
+@if (isLoading()) {
+  <div class="skeleton-board">
+    @for (item of [1,2,3]; track $index) {
+      <div class="skeleton-column">
+        <div class="skeleton-header"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+      </div>
+    }
+  </div>
+}
+@else {
+
 <div class="projects-container">
   <div class="page-header">
     <h1 class="title">Team Projects</h1>
@@ -24,6 +37,7 @@
     }
   </div>
 </div>
+}
 <ng-template #createProjectDialog>
   <form [formGroup]="addProjectForm" (ngSubmit)="confirmCreateProject()">
     <mat-dialog-content>
@@ -48,10 +62,23 @@
     </mat-dialog-content>
     <mat-dialog-actions>
       <button mat-button (click)="closeCreateProjectDialog()">Cancel</button>
-      <button mat-button type="submit" [disabled]="addProjectForm.invalid">Create</button>
+      <button mat-button type="submit" [disabled]="addProjectForm.invalid||isCreating()">
+        @if (isCreating()) {
+          <mat-progress-spinner
+            diameter="20"
+            mode="indeterminate"
+            color="accent">
+          </mat-progress-spinner>
+        }
+        @else {
+          Create
+        }
+      </button>
     </mat-dialog-actions>
   </form>
 
-
+  @if (createProjectErrorMessage()) {
+    <div class="alert-error">{{ createProjectErrorMessage() }}</div>
+  }
 </ng-template>
 

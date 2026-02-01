@@ -1,3 +1,9 @@
+@if (isLoadingComments()) {
+  <div class="loading-container">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+}
+ @else {
 <h2 mat-dialog-title class="dialog-header">{{ data.task.title }}</h2>
 
 <mat-dialog-content class="layout-wrapper">
@@ -37,10 +43,22 @@
     <div class="input-fixed-footer">
       <mat-form-field appearance="outline" class="full-width-input">
         <textarea matInput [(ngModel)]="newCommentBody" placeholder="Write a comment..." rows="2"></textarea>
-        <button mat-icon-button matSuffix (click)="sendComment()" [disabled]="!newCommentBody.trim()">
-          <mat-icon color="primary">send</mat-icon>
+        <button mat-icon-button matSuffix (click)="sendComment()" [disabled]="!newCommentBody.trim() || isSendingComment()" class="button-content">
+          <mat-icon color="primary">
+            @if (isSendingComment()) {
+              <mat-progress-spinner
+                diameter="20"
+                mode="indeterminate"
+                color="accent">
+              </mat-progress-spinner>
+            }
+            @else {
+              send
+            }
+        </mat-icon>
         </button>
       </mat-form-field>
     </div>
   </div>
 </mat-dialog-content>
+ }

@@ -1,3 +1,15 @@
+@if (isInitialLoading()) {
+  <div class="skeleton-board">
+    @for (item of [1,2,3]; track $index) {
+      <div class="skeleton-column">
+        <div class="skeleton-header"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+      </div>
+    }
+  </div>    
+}
+@else {
 <div class="board-container" cdkDropListGroup>
     <header class="main-header">
         <h1 class="project-name">Project Flow Board</h1>
@@ -77,7 +89,7 @@
         </div>
     </div>
 </div>
-
+}
 <ng-template #taskDialog>
     <h2 mat-dialog-title>new task</h2>
     <mat-dialog-content [formGroup]="taskForm" class="dialog-form">
@@ -118,8 +130,13 @@
     </mat-dialog-content>
     <mat-dialog-actions align="end">
         <button mat-button mat-dialog-close>cancel</button>
-        <button mat-raised-button color="primary" (click)="confirmSaveTask()" [disabled]="taskForm.invalid">save
-            task</button>
+        <button mat-raised-button class="button-content" color="primary" (click)="confirmSaveTask()" [disabled]="taskForm.invalid||isCreatingTask()">
+            @if(isCreatingTask()) {
+              <mat-progress-spinner diameter="20" mode="indeterminate"></mat-progress-spinner>
+            } @else {
+              save
+            }
+            </button>
     </mat-dialog-actions>
 </ng-template>
 
@@ -130,6 +147,12 @@
     </mat-dialog-content>
     <mat-dialog-actions align="end">
         <button mat-button [mat-dialog-close]="false">cencel</button>
-        <button mat-raised-button color="warn" [mat-dialog-close]="true">delete</button>
+        <button mat-raised-button color="warn" [mat-dialog-close]="true" class="button-content" [disabled]="isCreatingTask()">
+            @if(isCreatingTask()) {
+              <mat-progress-spinner diameter="20" mode="indeterminate"></mat-progress-spinner>
+            } @else {
+              delete
+            }
+        </button>
     </mat-dialog-actions>
 </ng-template>

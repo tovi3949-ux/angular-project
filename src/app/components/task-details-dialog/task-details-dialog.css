@@ -79,3 +79,9 @@
   font-weight: 700;
   flex-shrink: 0;
 }
+.button-content{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 24px;
+}
